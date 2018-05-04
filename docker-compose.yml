@@ -1,0 +1,71 @@
+version: '3.3'
+services:
+
+#############
+##  NGINX  ##
+#############
+  nginx:
+    build:
+      context: ./Nginx
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
+    restart: always
+    volumes:
+      - ./Source:/var/www/html
+    env_file:
+      - ./Nginx/.env
+    depends_on:
+      - php-fpm
+      - mariadb
+    links:
+      - php-fpm
+
+#############
+## ADMINER ##
+#############
+  adminer:
+    build:
+      context: ./Adminer
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    restart: always
+    env_file:
+      - ./Adminer/.env
+    depends_on:
+      - mariadb
+
+#############
+## MARIADB ##
+#############
+  mariadb:
+    build:
+          context: ./MariaDB
+          dockerfile: Dockerfile
+    ports:
+      - "3306:3306"
+    env_file:
+      - ./MariaDB/.env
+
+#############
+## PHP-FPM ##
+#############
+  php-fpm:
+    build:
+      context: ./Php-fpm
+      dockerfile: Dockerfile
+    env_file:
+      - ./Php-fpm/.env
+    volumes:
+      - ./Source:/var/www/html
+
+#############
+##  REDIS  ##
+#############
+  redis:
+    build:
+      context: ./Redis
+      dockerfile: Dockerfile
+    env_file:
+      - ./Redis/.env
