@@ -1,9 +1,25 @@
 version: '3.3'
-services:
 
-#############
-##  NGINX  ##
-#############
+#############################################################
+############################# VOLUMES #######################
+#############################################################
+volumes:
+# MARIADB
+  mariadb:
+    driver: ${VOLUME_DRIVER}
+# REDIS
+  redis:
+    driver: ${VOLUME_DRIVER}
+#ELASTICSEARCH
+  elasticsearch:
+    driver: ${VOLUME_DRIVER}
+
+
+#############################################################
+############################# SERVICES ######################
+#############################################################
+services:
+# NGINX
   nginx:
     build:
       context: ./Nginx
@@ -23,9 +39,7 @@ services:
     links:
       - php-fpm
 
-#############
-## ADMINER ##
-#############
+# ADMINER
   adminer:
     build:
       context: ./Adminer
@@ -40,9 +54,7 @@ services:
     depends_on:
       - mariadb
 
-#############
-## MARIADB ##
-#############
+# MARIADB
   mariadb:
     build:
       context: ./MariaDB
@@ -54,9 +66,7 @@ services:
     env_file:
       - ./MariaDB/.env
 
-#############
-## PHP-FPM ##
-#############
+# PHP-FPM
   php-fpm:
     build:
       context: ./Php-fpm
@@ -69,9 +79,7 @@ services:
     volumes:
       - ./Source:/var/www/html
 
-#############
-##  REDIS  ##
-#############
+# REDIS
   redis:
     build:
       context: ./Redis
@@ -81,15 +89,15 @@ services:
     env_file:
       - ./Redis/.env
 
-######################
-##  ELASTIC SEARCH  ##
-######################
+# ELASTIC SEARCH
   elastic-search:
     build:
       context: ./Elastic-Search
       dockerfile: Dockerfile
       args:
         - CONTAINER_VERSION=${ELASTIC_SEARCH}
+    volumes:
+      - elasticsearch:/usr/share/elasticsearch/data
     ports:
       - "9200:9200"
       - "9300:9300"
@@ -98,9 +106,7 @@ services:
     env_file:
       - ./Elastic-Search/.env
 
-################
-## SUPERVISOR ##
-################
+# SUPERVISOR
   supervisor:
     build:
       context: ./Supervisor
@@ -112,3 +118,4 @@ services:
       - ./Supervisor/.env
     volumes:
       - ./Source:/var/www/html
+      - ./Supervisor/config:/etc/supervisor/config
