@@ -8,6 +8,8 @@ services:
     build:
       context: ./Nginx
       dockerfile: Dockerfile
+      args:
+        - CONTAINER_VERSION=${NGINX_VER}
     ports:
       - "80:80"
     restart: always
@@ -28,6 +30,8 @@ services:
     build:
       context: ./Adminer
       dockerfile: Dockerfile
+      args:
+        - CONTAINER_VERSION=${ADMINER_VER}
     ports:
       - "8080:8080"
     restart: always
@@ -41,8 +45,10 @@ services:
 #############
   mariadb:
     build:
-          context: ./MariaDB
-          dockerfile: Dockerfile
+      context: ./MariaDB
+      dockerfile: Dockerfile
+      args:
+        - CONTAINER_VERSION=${MARIADB_VER}  
     ports:
       - "3306:3306"
     env_file:
@@ -55,6 +61,9 @@ services:
     build:
       context: ./Php-fpm
       dockerfile: Dockerfile
+      args:
+        - CONTAINER_VERSION=${PHP_VER}
+        - PHP_EXTENSION=${PHP_EXTENSION}
     env_file:
       - ./Php-fpm/.env
     volumes:
@@ -67,5 +76,39 @@ services:
     build:
       context: ./Redis
       dockerfile: Dockerfile
+      args:
+        - CONTAINER_VERSION=${REDIS_VER}
     env_file:
       - ./Redis/.env
+
+######################
+##  ELASTIC SEARCH  ##
+######################
+  elastic-search:
+    build:
+      context: ./Elastic-Search
+      dockerfile: Dockerfile
+      args:
+        - CONTAINER_VERSION=${ELASTIC_SEARCH}
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    depends_on:
+      - php-fpm
+    env_file:
+      - ./Elastic-Search/.env
+
+################
+## SUPERVISOR ##
+################
+  supervisor:
+    build:
+      context: ./Supervisor
+      dockerfile: Dockerfile
+      args:
+        - CONTAINER_VERSION=${PHP_VER}
+        - PHP_EXTENSION=${PHP_EXTENSION}
+    env_file:
+      - ./Supervisor/.env
+    volumes:
+      - ./Source:/var/www/html
