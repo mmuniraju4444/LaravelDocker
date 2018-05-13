@@ -101,6 +101,10 @@ services:
     ports:
       - "9200:9200"
       - "9300:9300"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
     depends_on:
       - php-fpm
     env_file:

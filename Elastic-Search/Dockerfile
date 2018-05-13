@@ -1,3 +1,3 @@
 ARG CONTAINER_VERSION=${CONTAINER_VERSION}
-FROM elasticsearch:${CONTAINER_VERSION}-alpine
+FROM docker.elastic.co/elasticsearch/elasticsearch:${CONTAINER_VERSION}
 
