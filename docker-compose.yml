@@ -5,8 +5,10 @@ version: '3.3'
 #############################################################
 volumes:
 # MARIADB
-  mariadb:
-    driver: ${VOLUME_DRIVER}
+  # mariadb:
+  #   driver: ${VOLUME_DRIVER}
+  # slavedb:
+  #   drive: ${VOLUME_DRIVER}
 # REDIS
   redis:
     driver: ${VOLUME_DRIVER}
@@ -19,6 +21,17 @@ volumes:
 ############################# SERVICES ######################
 #############################################################
 services:
+# LOGZIO
+  logzio:
+    build:
+      context: ./LogzIO
+      dockerfile: Dockerfile
+    restart: always
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    env_file:
+      - ./LogzIO/.env
+
 # NGINX
   nginx:
     build:
@@ -47,7 +60,7 @@ services:
       args:
         - CONTAINER_VERSION=${ADMINER_VER}
     ports:
-      - "8080:8080"
+      - "8081:8080"
     restart: always
     env_file:
       - ./Adminer/.env
@@ -60,7 +73,7 @@ services:
       context: ./MariaDB
       dockerfile: Dockerfile
       args:
-        - CONTAINER_VERSION=${MARIADB_VER}  
+        - CONTAINER_VERSION=${MARIADB_VER}
     ports:
       - "3306:3306"
     env_file:
