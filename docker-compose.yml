@@ -5,10 +5,10 @@ version: '3.3'
 #############################################################
 volumes:
 # MARIADB
-  # mariadb:
-  #   driver: ${VOLUME_DRIVER}
-  # slavedb:
-  #   drive: ${VOLUME_DRIVER}
+  mariadb-master:
+    driver: ${VOLUME_DRIVER}
+  mariadb-slave:
+    driver: ${VOLUME_DRIVER}
 # REDIS
   redis:
     driver: ${VOLUME_DRIVER}
@@ -48,7 +48,7 @@ services:
       - ./Nginx/.env
     depends_on:
       - php-fpm
-      - mariadb
+      - mariadb-master
     links:
       - php-fpm
 
@@ -65,19 +65,35 @@ services:
     env_file:
       - ./Adminer/.env
     depends_on:
-      - mariadb
+      - mariadb-master
 
 # MARIADB
-  mariadb:
+  mariadb-master:
     build:
-      context: ./MariaDB
+      context: ./MariaDB-Master
       dockerfile: Dockerfile
       args:
         - CONTAINER_VERSION=${MARIADB_VER}
-    ports:
-      - "3306:3306"
+    # ports:
+    #   - "3306:3306"
     env_file:
-      - ./MariaDB/.env
+      - ./MariaDB-Master/.env
+    volumes:
+      - mariadb-master:/var/lib/mysql
+
+  # https://www.tecmint.com/mariadb-master-slave-replication-on-centos-rhel-debian/
+  mariadb-slave:
+    build:
+      context: ./MariaDB-Slave
+      dockerfile: Dockerfile
+      args:
+        - CONTAINER_VERSION=${MARIADB_VER}
+    # ports:
+    #   - "3306:3306"
+    env_file:
+      - ./MariaDB-Slave/.env
+    volumes:
+      - mariadb-slave:/var/lib/mysql
 
 # PHP-FPM
   php-fpm:

@@ -1,7 +1,12 @@
 # LaravelDocker
 
 #### Docker for Laravel PHP Framework.
-
+## Elastic Search
+To make it persistent, you can add this line:
+`vm.max_map_count=262144`
+in your `/etc/sysctl.conf` and run
+`$ sudo sysctl -p``
+to reload configuration with new value
 ## Application
 Save all the application under `Source` folder. 
 
