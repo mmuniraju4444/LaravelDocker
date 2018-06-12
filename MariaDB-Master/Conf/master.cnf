@@ -1,7 +1,10 @@
 
 # MariaDB database server configuration file.
 [mysqld]
-log-bin
 #bind-address=0.0.0.0
+# https://stackoverflow.com/questions/44431961/what-is-the-difference-between-binlog-do-db-and-replicate-do-db
 server_id=1
-replicate-do-db=mariadb
+log-basename=master
+log-bin
+binlog-format=row
+binlog-do-db=mariadb

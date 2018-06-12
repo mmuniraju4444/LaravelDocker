@@ -1,6 +1,26 @@
 # LaravelDocker
 
 #### Docker for Laravel PHP Framework.
+## Master - Slave
+# Master
+```
+-> CREATE USER 'docker_slave'@'localhost' IDENTIFIED BY 'slave';
+-> GRANT REPLICATION SLAVE ON *.* TO docker_slave IDENTIFIED BY 'slave' WITH GRANT OPTION;
+-> FLUSH PRIVILEGES;
+-> FLUSH TABLES WITH READ LOCK;
+-> SHOW MASTER STATUS;
+-> Dump the Database which is required i.e, part of the slave. ( mysqldump -u root -p employees > employees-dump.sql ).
+```
+# Slave
+```
+-> CREATE USER 'docker_slave'@'localhost' IDENTIFIED BY 'slave';
+-> GRANT ALL PRIVILEGES ON mariadb.* TO 'docker_slave'@'localhost' WITH GRANT OPTION;
+-> FLUSH PRIVILEGES;
+-> Import the Database of Master i.e, Dumped database of master server.
+-> CHANGE MASTER TO MASTER_HOST='mariadb-master', MASTER_USER='docker_slave', MASTER_PASSWORD='slave', MASTER_PORT=3306, MASTER_LOG_FILE='master-bin.000003', MASTER_LOG_POS=1046, MASTER_CONNECT_RETRY=10, MASTER_USE_GTID=current_pos;
+-> START SLAVE;
+-> SHOW SLAVE STATUS
+```
 ## Elastic Search
 To make it persistent, you can add this line:
 `vm.max_map_count=262144`
