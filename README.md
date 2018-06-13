@@ -2,16 +2,17 @@
 
 #### Docker for Laravel PHP Framework.
 ## Master - Slave
-# Master
+### Master
 ```
 -> CREATE USER 'docker_slave'@'localhost' IDENTIFIED BY 'slave';
 -> GRANT REPLICATION SLAVE ON *.* TO docker_slave IDENTIFIED BY 'slave' WITH GRANT OPTION;
 -> FLUSH PRIVILEGES;
 -> FLUSH TABLES WITH READ LOCK;
+-> Dump the Database which is required i.e, part of the slave. ( mysqldump -u root -p mariadb > mariadb-master-dump.sql ).
+-> UNLOCK TABLES;
 -> SHOW MASTER STATUS;
--> Dump the Database which is required i.e, part of the slave. ( mysqldump -u root -p employees > employees-dump.sql ).
 ```
-# Slave
+### Slave
 ```
 -> CREATE USER 'docker_slave'@'localhost' IDENTIFIED BY 'slave';
 -> GRANT ALL PRIVILEGES ON mariadb.* TO 'docker_slave'@'localhost' WITH GRANT OPTION;
@@ -25,7 +26,7 @@
 To make it persistent, you can add this line:
 `vm.max_map_count=262144`
 in your `/etc/sysctl.conf` and run
-`$ sudo sysctl -p``
+`$ sudo sysctl -p`
 to reload configuration with new value
 ## Application
 Save all the application under `Source` folder. 
