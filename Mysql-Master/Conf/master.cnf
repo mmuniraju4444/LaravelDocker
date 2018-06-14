@@ -1,0 +1,8 @@
+# Mysql database server configuration file.
+[mysqld]
+#bind-address=0.0.0.0
+# https://stackoverflow.com/questions/44431961/what-is-the-difference-between-binlog-do-db-and-replicate-do-db
+server_id=1
+log-bin = /var/log/mysql/mysql-bin.log
+binlog-do-db=database1
+binlog-do-db=database2

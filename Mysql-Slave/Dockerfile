@@ -1,0 +1,3 @@
+ARG CONTAINER_VERSION=${CONTAINER_VERSION}
+FROM mysql:${CONTAINER_VERSION}
+COPY ./Conf /etc/mysql/mysql.conf.d
