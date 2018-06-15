@@ -66,6 +66,34 @@ services:
       - ./Adminer/.env
     depends_on:
       - mariadb-master
+# MYSQL
+  mysql-master:
+    build:
+      context: ./Mysql-Master
+      dockerfile: Dockerfile
+      args:
+        - CONTAINER_VERSION=${MYSQL_VER}
+    # ports:
+    #   - "3306:3306"
+    env_file:
+      - ./Mysql-Master/.env
+    volumes:
+      - mysql-master:/var/lib/mysql
+      - ~/dumps:/dumps
+
+  # https://www.tecmint.com/mysql-master-slave-replication-on-centos-rhel-debian/
+  mysql-slave:
+    build:
+      context: ./Mysql-Slave
+      dockerfile: Dockerfile
+      args:
+        - CONTAINER_VERSION=${MYSQL_VER}
+    # ports:
+    #   - "3306:3306"
+    env_file:
+      - ./Mysql-Slave/.env
+    volumes:
+      - mysql-slave:/var/lib/mysql
 
 # MARIADB
   mariadb-master:
