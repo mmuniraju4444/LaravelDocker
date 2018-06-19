@@ -9,6 +9,10 @@ volumes:
     driver: ${VOLUME_DRIVER}
   mariadb-slave:
     driver: ${VOLUME_DRIVER}
+  mysql-master:
+    driver: ${VOLUME_DRIVER}
+  mysql-slave:
+    driver: ${VOLUME_DRIVER}
 # REDIS
   redis:
     driver: ${VOLUME_DRIVER}
@@ -21,6 +25,24 @@ volumes:
 ############################# SERVICES ######################
 #############################################################
 services:
+# CADVISOR 
+  cadvisor :
+    build:
+      context: ./Cadvisor
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - "8085:8080"
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:rw
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+      - /dev/disk/:/dev/disk:ro
+      - /var/run/docker.sock:/var/run/docker.sock
+    env_file:
+      - ./Cadvisor/.env
+
 # LOGZIO
   logzio:
     build:

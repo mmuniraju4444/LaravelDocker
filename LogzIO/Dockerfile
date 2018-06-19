@@ -1,1 +1,1 @@
-FROM logzio/logzio-docker
+FROM logzio/logzio-docker:latest
