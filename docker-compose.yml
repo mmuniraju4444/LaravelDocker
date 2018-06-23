@@ -25,11 +25,27 @@ volumes:
 ############################# SERVICES ######################
 #############################################################
 services:
+# COMPOSER
+  composer :
+    build:
+      context: ./Composer
+      dockerfile: Dockerfile
+      args:
+        - CONTAINER_VERSION=${COMPOSER_VER}
+    restart: always
+    tty: true
+    stdin_open: false
+    volumes:
+      - ./Source:/var/www/html
+    env_file:
+      - ./Composer/.env
 # CADVISOR 
   cadvisor :
     build:
       context: ./Cadvisor
       dockerfile: Dockerfile
+      args:
+        - CONTAINER_VERSION=${CADVISOR_VER}
     restart: always
     ports:
       - "8085:8080"
@@ -48,6 +64,8 @@ services:
     build:
       context: ./LogzIO
       dockerfile: Dockerfile
+      args:
+        - CONTAINER_VERSION=${LOGZIO_VER}
     restart: always
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
@@ -174,7 +192,7 @@ services:
       context: ./Elastic-Search
       dockerfile: Dockerfile
       args:
-        - CONTAINER_VERSION=${ELASTIC_SEARCH}
+        - CONTAINER_VERSION=${ELASTIC_SEARCH_VER}
     volumes:
       - elasticsearch:/usr/share/elasticsearch/data
     ports:

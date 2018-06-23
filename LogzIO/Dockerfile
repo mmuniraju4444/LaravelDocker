@@ -1,1 +1,2 @@
-FROM logzio/logzio-docker:latest
+ARG CONTAINER_VERSION=${CONTAINER_VERSION}
+FROM logzio/logzio-docker:${CONTAINER_VERSION}

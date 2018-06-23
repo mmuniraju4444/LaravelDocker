@@ -1,1 +1,2 @@
-FROM google/cadvisor:latest 
+ARG CONTAINER_VERSION=${CONTAINER_VERSION}
+FROM google/cadvisor:${CONTAINER_VERSION}
