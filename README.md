@@ -22,6 +22,8 @@
 -> START SLAVE;
 -> SHOW SLAVE STATUS
 ```
+Note : `If you get error about creating new user failed in 'SHOW SLAVE STATUS', then drop the user from Slave and run 'STOP SLAVE; START SLAVE';`
+
 ## Elastic Search
 To make it persistent, you can add this line:
 `vm.max_map_count=262144`
