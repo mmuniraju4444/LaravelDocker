@@ -1,5 +1,7 @@
 ARG CONTAINER_VERSION=${CONTAINER_VERSION}
-FROM composer:${CONTAINER_VERSION}
+FROM php:${CONTAINER_VERSION}-fpm-alpine3.7
+
+COPY --from=composer:1.6.5 /usr/bin/composer /usr/bin/composer
 
 RUN echo "https://mirror.csclub.uwaterloo.ca/alpine/v3.7/main" > /etc/apk/repositories && \
  echo "https://mirror.csclub.uwaterloo.ca/alpine/v3.7/community" >> /etc/apk/repositories

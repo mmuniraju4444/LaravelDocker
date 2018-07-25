@@ -26,21 +26,23 @@ volumes:
 #############################################################
 services:
 # COMPOSER
-  composer :
+  workspace :
     build:
-      context: ./Composer
+      context: ./Workspace
       dockerfile: Dockerfile
       args:
-        - CONTAINER_VERSION=${COMPOSER_VER}
+        - CONTAINER_VERSION=${PHP_VER}
         - PHP_EXTENSION=${PHP_EXTENSION}
     restart: always
     tty: true
     stdin_open: false
     volumes:
       - ./Source:/var/www/html
+      - composer:/root/.composer
     env_file:
-      - ./Composer/.env
-# CADVISOR 
+      - ./Workspace/.env
+
+# CADVISOR
   cadvisor :
     build:
       context: ./Cadvisor
