@@ -32,6 +32,7 @@ services:
       dockerfile: Dockerfile
       args:
         - CONTAINER_VERSION=${COMPOSER_VER}
+        - PHP_EXTENSION=${PHP_EXTENSION}
     restart: always
     tty: true
     stdin_open: false
