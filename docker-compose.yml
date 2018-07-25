@@ -16,6 +16,9 @@ volumes:
 # REDIS
   redis:
     driver: ${VOLUME_DRIVER}
+# WORKSPACE
+  composer:
+    driver: ${VOLUME_DRIVER}
 #ELASTICSEARCH
   elasticsearch:
     driver: ${VOLUME_DRIVER}
