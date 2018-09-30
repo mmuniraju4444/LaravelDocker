@@ -22,7 +22,7 @@
 -> START SLAVE;
 -> SHOW SLAVE STATUS
 ```
-Note : `If you get error about creating new user failed in 'SHOW SLAVE STATUS', then drop the user from Slave and run 'STOP SLAVE; START SLAVE';`
+Note : `If you get error about creating new user failed in 'SHOW SLAVE STATUS', then drop the user ('DROP USER <user_name>') from Slave and run 'STOP SLAVE; START SLAVE';`
 
 ## Elastic Search
 To make it persistent, you can add this line:

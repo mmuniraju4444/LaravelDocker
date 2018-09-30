@@ -1,0 +1,5 @@
+ARG CONTAINER_VERSION=${CONTAINER_VERSION}
+FROM jenkins:${CONTAINER_VERSION}-alpine
+USER root
+RUN mkdir /workspace
+USER jenkins
