@@ -12,11 +12,16 @@ RUN apk --update add build-base \
   freetype \
   libjpeg-turbo \
   libpng \
+  icu-dev \
+  g++ \
   freetype-dev libpng-dev libjpeg-turbo-dev && \
   rm /var/cache/apk/*
 
 ARG PHP_EXTENSION=false
 RUN /usr/local/bin/docker-php-ext-install ${PHP_EXTENSION}
+
+RUN  /usr/local/bin/docker-php-ext-configure intl && \
+    /usr/local/bin/docker-php-ext-install intl
 
 RUN /usr/local/bin/docker-php-ext-install iconv && \
  /usr/local/bin/docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ && \
