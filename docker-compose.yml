@@ -22,12 +22,32 @@ volumes:
 #ELASTICSEARCH
   elasticsearch:
     driver: ${VOLUME_DRIVER}
+#JENKINS
+  jenkins:
+    driver: ${VOLUME_DRIVER}
 
 
 #############################################################
 ############################# SERVICES ######################
 #############################################################
 services:
+# JENKINS
+  jenkins:
+    build:
+      context: ./Jenkins
+      dockerfile: Dockerfile
+      args:
+      - CONTAINER_VERSION=${JENKINS_VER}
+    restart: always
+    ports:
+      - "8082:8080"
+      - "50000:50000"
+    volumes:
+      - jenkins:/var/jenkins_home
+      - ./Source:/workspace
+    env_file:
+      - ./Jenkins/.env
+
 # COMPOSER
   workspace :
     build:
@@ -66,17 +86,17 @@ services:
       - ./Cadvisor/.env
 
 # LOGZIO
-  logzio:
-    build:
-      context: ./LogzIO
-      dockerfile: Dockerfile
-      args:
-        - CONTAINER_VERSION=${LOGZIO_VER}
-    restart: always
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-    env_file:
-      - ./LogzIO/.env
+#  logzio:
+#    build:
+#      context: ./LogzIO
+#      dockerfile: Dockerfile
+#      args:
+#        - CONTAINER_VERSION=${LOGZIO_VER}
+#    restart: always
+#    volumes:
+#      - /var/run/docker.sock:/var/run/docker.sock
+#    env_file:
+#      - ./LogzIO/.env
 
 # NGINX
   nginx:
