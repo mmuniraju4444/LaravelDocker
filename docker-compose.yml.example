@@ -57,7 +57,7 @@ services:
       - CONTAINER_VERSION=${SONARQUBE_VER}
     restart: always
     ports:
-      - "9003:9000"
+      - "9000:9000"
       - "9092:9092"
     env_file:
       - ./Sonarqube/.env
