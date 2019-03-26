@@ -1,5 +1,5 @@
 ARG CONTAINER_VERSION=${CONTAINER_VERSION}
-FROM php:${CONTAINER_VERSION}-fpm-alpine3.7
+FROM php:${CONTAINER_VERSION}-fpm-alpine3.8
 
 COPY --from=composer:1.6.5 /usr/bin/composer /usr/bin/composer
 

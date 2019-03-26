@@ -1,5 +1,5 @@
 ARG CONTAINER_VERSION=${CONTAINER_VERSION}
-FROM php:${CONTAINER_VERSION}-fpm-alpine3.7
+FROM php:${CONTAINER_VERSION}-fpm-alpine3.8
 
 RUN echo "https://mirror.csclub.uwaterloo.ca/alpine/v3.7/main" > /etc/apk/repositories && \
  echo "https://mirror.csclub.uwaterloo.ca/alpine/v3.7/community" >> /etc/apk/repositories
