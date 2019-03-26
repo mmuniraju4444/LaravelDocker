@@ -255,6 +255,8 @@ services:
       args:
         - CONTAINER_VERSION=${PHP_VER}
         - PHP_EXTENSION=${PHP_EXTENSION}
+    ports:
+      - 9001:9001
     env_file:
       - ./Supervisor/.env
     volumes:
