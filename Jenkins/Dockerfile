@@ -1,5 +1,0 @@
-ARG CONTAINER_VERSION=${CONTAINER_VERSION}
-FROM jenkins/jenkins:${CONTAINER_VERSION}
-USER root
-RUN mkdir /workspace
-USER jenkins

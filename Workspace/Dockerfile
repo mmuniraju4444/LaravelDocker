@@ -1,10 +1,10 @@
 ARG CONTAINER_VERSION=${CONTAINER_VERSION}
-FROM php:${CONTAINER_VERSION}-fpm-alpine3.8
+FROM php:${CONTAINER_VERSION}-fpm-alpine
 
-COPY --from=composer:1.6.5 /usr/bin/composer /usr/bin/composer
+COPY --from=composer:1.8.5 /usr/bin/composer /usr/bin/composer
 
-RUN echo "https://mirror.csclub.uwaterloo.ca/alpine/v3.7/main" > /etc/apk/repositories && \
- echo "https://mirror.csclub.uwaterloo.ca/alpine/v3.7/community" >> /etc/apk/repositories
+#RUN echo "https://mirror.csclub.uwaterloo.ca/alpine/v3.7/main" > /etc/apk/repositories && \
+# echo "https://mirror.csclub.uwaterloo.ca/alpine/v3.7/community" >> /etc/apk/repositories
 
 RUN apk --update add build-base \
   libxml2-dev \

@@ -22,32 +22,12 @@ volumes:
 #ELASTICSEARCH
   elasticsearch:
     driver: ${VOLUME_DRIVER}
-#JENKINS
-  jenkins:
-    driver: ${VOLUME_DRIVER}
 
 
 #############################################################
 ############################# SERVICES ######################
 #############################################################
 services:
-# JENKINS
-  jenkins:
-    build:
-      context: ./Jenkins
-      dockerfile: Dockerfile
-      args:
-      - CONTAINER_VERSION=${JENKINS_VER}
-    restart: always
-    ports:
-      - "8082:8080"
-      - "50000:50000"
-    volumes:
-      - jenkins:/var/jenkins_home
-      - ./Source:/workspace
-    env_file:
-      - ./Jenkins/.env
-
 # SONARQUBE
   sonarqube:
     build:
@@ -78,6 +58,9 @@ services:
       - composer:/root/.composer
     env_file:
       - ./Workspace/.env
+    extra_hosts:
+      - "${HOST1}:${HOST_IP}"
+      - "${HOST2}:${HOST_IP}"
 
 # CADVISOR
   cadvisor :
@@ -99,19 +82,6 @@ services:
     env_file:
       - ./Cadvisor/.env
 
-# LOGZIO
-#  logzio:
-#    build:
-#      context: ./LogzIO
-#      dockerfile: Dockerfile
-#      args:
-#        - CONTAINER_VERSION=${LOGZIO_VER}
-#    restart: always
-#    volumes:
-#      - /var/run/docker.sock:/var/run/docker.sock
-#    env_file:
-#      - ./LogzIO/.env
-
 # NGINX
   nginx:
     build:
@@ -126,6 +96,9 @@ services:
       - ./Source:/var/www/html
     env_file:
       - ./Nginx/.env
+    extra_hosts:
+      - "${HOST1}:${HOST_IP}"
+      - "${HOST2}:${HOST_IP}"
     depends_on:
       - php-fpm
       - mariadb-master
@@ -259,6 +232,9 @@ services:
       - 9001:9001
     env_file:
       - ./Supervisor/.env
+    extra_hosts:
+      - "${HOST1}:${HOST_IP}"
+      - "${HOST2}:${HOST_IP}"
     volumes:
       - ./Source:/var/www/html
       - ./Supervisor/config:/etc/supervisor/config

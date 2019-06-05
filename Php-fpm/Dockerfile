@@ -1,8 +1,8 @@
 ARG CONTAINER_VERSION=${CONTAINER_VERSION}
-FROM php:${CONTAINER_VERSION}-fpm-alpine3.8
+FROM php:${CONTAINER_VERSION}-fpm-alpine
 
-RUN echo "https://mirror.csclub.uwaterloo.ca/alpine/v3.7/main" > /etc/apk/repositories && \
- echo "https://mirror.csclub.uwaterloo.ca/alpine/v3.7/community" >> /etc/apk/repositories
+#RUN echo "https://mirror.csclub.uwaterloo.ca/alpine/v3.9/main" > /etc/apk/repositories && \
+# echo "https://mirror.csclub.uwaterloo.ca/alpine/v3.9/community" >> /etc/apk/repositories
 
 RUN apk --update add build-base \
   libxml2-dev \
