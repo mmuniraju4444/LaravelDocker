@@ -1,10 +1,11 @@
 ARG CONTAINER_VERSION=${CONTAINER_VERSION}
 FROM php:${CONTAINER_VERSION}-fpm-alpine
 
-COPY --from=composer:1.8.5 /usr/bin/composer /usr/bin/composer
+COPY --from=composer:1.6.5 /usr/bin/composer /usr/bin/composer
 
 #RUN echo "https://mirror.csclub.uwaterloo.ca/alpine/v3.7/main" > /etc/apk/repositories && \
 # echo "https://mirror.csclub.uwaterloo.ca/alpine/v3.7/community" >> /etc/apk/repositories
+RUN apk --update add git
 
 RUN apk --update add build-base \
   libxml2-dev \
@@ -28,6 +29,11 @@ RUN /usr/local/bin/docker-php-ext-install iconv && \
 /usr/local/bin/docker-php-ext-install gd
 
 RUN apk del --no-cache freetype-dev libpng-dev libjpeg-turbo-dev
+
+RUN addgroup -g 1000 -S appuser && \
+    adduser -u 1000 -S appuser -G appuser
+
+USER appuser
 
 WORKDIR /var/www/html
 CMD [ "sh" ]
