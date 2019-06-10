@@ -5,9 +5,9 @@ COPY --from=composer:1.6.5 /usr/bin/composer /usr/bin/composer
 
 #RUN echo "https://mirror.csclub.uwaterloo.ca/alpine/v3.7/main" > /etc/apk/repositories && \
 # echo "https://mirror.csclub.uwaterloo.ca/alpine/v3.7/community" >> /etc/apk/repositories
-RUN apk --update add git
 
-RUN apk --update add build-base \
+RUN apk --update --no-cache add build-base \
+  git \
   libxml2-dev \
   libmcrypt-dev \
   freetype \
@@ -15,8 +15,7 @@ RUN apk --update add build-base \
   libpng \
   icu-dev \
   g++ \
-  freetype-dev libpng-dev libjpeg-turbo-dev && \
-  rm /var/cache/apk/*
+  freetype-dev libpng-dev libjpeg-turbo-dev
 
 ARG PHP_EXTENSION=false
 RUN /usr/local/bin/docker-php-ext-install ${PHP_EXTENSION}
@@ -32,6 +31,8 @@ RUN apk del --no-cache freetype-dev libpng-dev libjpeg-turbo-dev
 
 RUN addgroup -g 1000 -S appuser && \
     adduser -u 1000 -S appuser -G appuser
+
+RUN apk --update --no-cache add npm yarn
 
 USER appuser
 
