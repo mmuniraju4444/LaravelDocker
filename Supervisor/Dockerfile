@@ -4,6 +4,8 @@ FROM php:${CONTAINER_VERSION}-fpm-alpine
 RUN apk --update --no-cache add build-base \
   busybox-extras \
   $PHPIZE_DEPS \
+  libtool \
+  imagemagick \
   libjpeg-turbo-dev \
   imagemagick-dev \
   libxml2-dev \
@@ -20,7 +22,8 @@ RUN apk --update --no-cache add build-base \
   jpegoptim \
   pngquant \
   gifsicle \
-  && pecl install imagick
+  && pecl install imagick \
+  && export CFLAGS="$PHP_CFLAGS" CPPFLAGS="$PHP_CPPFLAGS" LDFLAGS="$PHP_LDFLAGS"
 
 ARG PHP_EXTENSION=false
 
