@@ -1,7 +1,8 @@
 ARG CONTAINER_VERSION=${CONTAINER_VERSION}
 FROM php:${CONTAINER_VERSION}-fpm-alpine
-
+# busybox telnet <ip> <port>
 RUN apk --update --no-cache add build-base \
+  busybox-extras \
   $PHPIZE_DEPS \
   libjpeg-turbo-dev \
   imagemagick-dev \
