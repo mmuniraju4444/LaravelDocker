@@ -94,6 +94,7 @@ services:
         - CONTAINER_VERSION=${NGINX_VER}
     ports:
       - "80:80"
+      - "443:443"
     restart: always
     volumes:
       - ./Source:/var/www/html
