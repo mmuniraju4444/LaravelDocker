@@ -1,37 +1,50 @@
 ARG CONTAINER_VERSION=${CONTAINER_VERSION}
 FROM php:${CONTAINER_VERSION}-fpm-alpine
 
-#RUN echo "https://mirror.csclub.uwaterloo.ca/alpine/v3.7/main" > /etc/apk/repositories && \
-# echo "https://mirror.csclub.uwaterloo.ca/alpine/v3.7/community" >> /etc/apk/repositories
-
-RUN apk --update add build-base \
-  libmemcached-dev \
-  libmcrypt-dev \
+RUN apk --update --no-cache add build-base \
+  busybox-extras \
+  $PHPIZE_DEPS \
+  libjpeg-turbo-dev \
+  imagemagick-dev \
   libxml2-dev \
-  zlib-dev \
-  autoconf \
-  cyrus-sasl-dev \
-  libgsasl-dev \
+  libmcrypt-dev \
   freetype \
-  libjpeg-turbo \
+  file \
+  libzip-dev \
   libpng \
   icu-dev \
   g++ \
-  freetype-dev libpng-dev libjpeg-turbo-dev \
-  supervisor && \
-  rm /var/cache/apk/*
+  freetype-dev \
+  libpng-dev \
+  zip \
+  jpegoptim \
+  pngquant \
+  gifsicle \
+  && pecl install imagick
 
 ARG PHP_EXTENSION=false
+
 RUN /usr/local/bin/docker-php-ext-install ${PHP_EXTENSION}
 
 RUN  /usr/local/bin/docker-php-ext-configure intl && \
     /usr/local/bin/docker-php-ext-install intl
 
-RUN /usr/local/bin/docker-php-ext-install iconv && \
- /usr/local/bin/docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ && \
-/usr/local/bin/docker-php-ext-install gd
+ARG PECL_EXTENSION=false
 
-RUN apk del --no-cache freetype-dev libpng-dev libjpeg-turbo-dev
+RUN /usr/local/bin/docker-php-ext-install iconv && \
+ /usr/local/bin/docker-php-ext-configure gd --with-freetype=/usr/include/ --with-jpeg=/usr/include/ && \
+/usr/local/bin/docker-php-ext-install gd && \
+/usr/local/bin/docker-php-ext-enable imagick
+
+RUN apk del --no-cache freetype-dev libpng-dev
+
+RUN apk --update --no-cache add build-base \
+  libmemcached-dev \
+  zlib-dev \
+  autoconf \
+  cyrus-sasl-dev \
+  libgsasl-dev \
+  supervisor
 
 COPY supervisord.conf /etc/supervisord.conf
 

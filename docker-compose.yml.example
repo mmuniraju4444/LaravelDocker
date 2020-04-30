@@ -61,6 +61,9 @@ services:
     extra_hosts:
       - "${HOST1}:${HOST_IP}"
       - "${HOST2}:${HOST_IP}"
+      - "${HOST3}:${HOST_IP}"
+      - "${HOST4}:${HOST_IP}"
+      - "${HOST5}:${HOST_IP}"
 
 # CADVISOR
   cadvisor :
@@ -99,6 +102,9 @@ services:
     extra_hosts:
       - "${HOST1}:${HOST_IP}"
       - "${HOST2}:${HOST_IP}"
+      - "${HOST3}:${HOST_IP}"
+      - "${HOST4}:${HOST_IP}"
+      - "${HOST5}:${HOST_IP}"
     depends_on:
       - php-fpm
       - mariadb-master
@@ -235,6 +241,25 @@ services:
     extra_hosts:
       - "${HOST1}:${HOST_IP}"
       - "${HOST2}:${HOST_IP}"
+      - "${HOST3}:${HOST_IP}"
+      - "${HOST4}:${HOST_IP}"
+      - "${HOST5}:${HOST_IP}"
     volumes:
       - ./Source:/var/www/html
       - ./Supervisor/config:/etc/supervisor/config
+
+  # BROWSERLESS
+  browserless:
+    build:
+      context: ./Browserless
+      dockerfile: Dockerfile
+      args:
+        - CONTAINER_VERSION=${BROWSERLESS_VER}
+    env_file:
+      - ./Browserless/.env
+    extra_hosts:
+      - "${HOST1}:${HOST_IP}"
+      - "${HOST2}:${HOST_IP}"
+      - "${HOST3}:${HOST_IP}"
+      - "${HOST4}:${HOST_IP}"
+      - "${HOST5}:${HOST_IP}"
