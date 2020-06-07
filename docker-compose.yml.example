@@ -64,6 +64,7 @@ services:
       - "${HOST3}:${HOST_IP}"
       - "${HOST4}:${HOST_IP}"
       - "${HOST5}:${HOST_IP}"
+      - "${HOST6}:${HOST_IP}"
 
 # CADVISOR
   cadvisor :
@@ -106,6 +107,7 @@ services:
       - "${HOST3}:${HOST_IP}"
       - "${HOST4}:${HOST_IP}"
       - "${HOST5}:${HOST_IP}"
+      - "${HOST6}:${HOST_IP}"
     depends_on:
       - php-fpm
       - mariadb-master
@@ -245,6 +247,7 @@ services:
       - "${HOST3}:${HOST_IP}"
       - "${HOST4}:${HOST_IP}"
       - "${HOST5}:${HOST_IP}"
+      - "${HOST6}:${HOST_IP}"
     volumes:
       - ./Source:/var/www/html
       - ./Supervisor/config:/etc/supervisor/config
@@ -264,3 +267,42 @@ services:
       - "${HOST3}:${HOST_IP}"
       - "${HOST4}:${HOST_IP}"
       - "${HOST5}:${HOST_IP}"
+      - "${HOST6}:${HOST_IP}"
+
+  # NodeJs
+  mmtinyurl:
+    build:
+      context: ./NodeJs
+      dockerfile: Dockerfile
+      args:
+        - CONTAINER_VERSION=${NODEJS_VER}
+    working_dir: /var/www/html/urlshortner
+    tty: true
+    command: "npm start"
+    volumes:
+      - ./Source:/var/www/html
+    env_file:
+      - ./NodeJs/.env
+    extra_hosts:
+      - "${HOST1}:${HOST_IP}"
+      - "${HOST2}:${HOST_IP}"
+      - "${HOST3}:${HOST_IP}"
+      - "${HOST4}:${HOST_IP}"
+      - "${HOST5}:${HOST_IP}"
+      - "${HOST6}:${HOST_IP}"
+
+  # GoLang
+  mmtinyurl-backend:
+    build:
+      context: ./GoLang
+      dockerfile: Dockerfile
+      args:
+        - CONTAINER_VERSION=${GOLANG_VER}
+    volumes:
+      - ./Source/urlshortner-backend:/usr/src/app
+    command: "go run app.go"
+    tty: true
+    ports:
+      - 8084:8080
+    env_file:
+      - ./GoLang/.env
