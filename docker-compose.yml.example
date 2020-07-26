@@ -306,3 +306,30 @@ services:
       - 8084:8080
     env_file:
       - ./GoLang/.env
+
+# NEXTCLOUD
+  nextcloud:
+    build:
+      context: ./NextCloud
+      dockerfile: Dockerfile
+      args:
+        - CONTAINER_VERSION=${NEXTCLOUD_VER}
+    volumes:
+      - ./Source/nextcloud:/var/www/html
+    ports:
+      - 8005:80
+    env_file:
+      - ./NextCloud/.env
+    depends_on:
+      - nginx
+      - mariadb-master
+      - redis
+    extra_hosts:
+      - "${HOST1}:${HOST_IP}"
+      - "${HOST2}:${HOST_IP}"
+      - "${HOST3}:${HOST_IP}"
+      - "${HOST4}:${HOST_IP}"
+      - "${HOST5}:${HOST_IP}"
+      - "${HOST6}:${HOST_IP}"
+      - "${HOST7}:${HOST_IP}"
+      - "${HOST8}:${HOST_IP}"
