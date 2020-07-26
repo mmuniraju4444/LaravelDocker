@@ -22,7 +22,7 @@ RUN apk --update --no-cache add build-base \
   jpegoptim \
   pngquant \
   gifsicle \
-  && pecl install imagick \
+  && pecl install imagick redis \
   && export CFLAGS="$PHP_CFLAGS" CPPFLAGS="$PHP_CPPFLAGS" LDFLAGS="$PHP_LDFLAGS"
 
 ARG PHP_EXTENSION=false
@@ -37,9 +37,10 @@ ARG PECL_EXTENSION=false
 RUN /usr/local/bin/docker-php-ext-install iconv && \
  /usr/local/bin/docker-php-ext-configure gd --with-freetype=/usr/include/ --with-jpeg=/usr/include/ && \
 /usr/local/bin/docker-php-ext-install gd && \
-/usr/local/bin/docker-php-ext-enable imagick
+/usr/local/bin/docker-php-ext-enable imagick redis
 
-RUN apk del --no-cache freetype-dev libpng-dev
+RUN apk del --no-cache freetype-dev libpng-dev && \
+rm -rf /tmp/pear
 
 RUN apk --update --no-cache add build-base \
   libmemcached-dev \
