@@ -29,7 +29,7 @@ ARG PHP_EXTENSION=false
 
 RUN /usr/local/bin/docker-php-ext-install ${PHP_EXTENSION}
 
-RUN  /usr/local/bin/docker-php-ext-configure intl zip && \
+RUN  /usr/local/bin/docker-php-ext-configure intl && \
     /usr/local/bin/docker-php-ext-install intl zip
 
 ARG PECL_EXTENSION=false
