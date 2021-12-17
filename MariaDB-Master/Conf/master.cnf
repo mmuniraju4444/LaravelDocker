@@ -1,4 +1,3 @@
-
 # MariaDB database server configuration file.
 [mysqld]
 #bind-address=0.0.0.0
@@ -8,3 +7,6 @@ log-basename=master
 log-bin
 binlog-format=row
 binlog-do-db=mariadb
+binlog-do-db=rent
+binlog-do-db=blog
+binlog-do-db=apis

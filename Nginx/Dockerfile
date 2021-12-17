@@ -8,5 +8,6 @@ COPY conf/app.conf /etc/nginx/sites-available/app.conf
 
 # Copy SSl Files
 COPY ssl/* /etc/nginx/ssl/
+COPY .htpasswd /etc/nginx/
 # remove default config
 RUN rm /etc/nginx/conf.d/default.conf

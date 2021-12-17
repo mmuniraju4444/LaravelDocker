@@ -48,8 +48,8 @@ rm -rf /tmp/pear
 
 COPY --from=composer:2.0.8 /usr/bin/composer /usr/bin/composer
 
-RUN addgroup -g 1000 -S appuser && \
-    adduser -u 1000 -S appuser -G appuser
+RUN addgroup -g 1001 -S appuser && \
+    adduser -u 1001 -S appuser -G appuser
 
 RUN apk --update --no-cache add git npm yarn
 
