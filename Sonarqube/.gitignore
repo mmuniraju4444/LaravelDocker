@@ -1,5 +1,7 @@
 /.env
-./data/sonarqube_data/
-./data/sonarqube_extensions/
-!./data/sonarqube_extensions/plugins/sonarqube-community-branch-plugin-1.8.1.jar
-./data/sonarqube_logs/
+/data/sonarqube_data/*
+/data/sonarqube_extensions/*
+!/data/sonarqube_extensions/plugins
+/data/sonarqube_extensions/plugins/*
+!/data/sonarqube_extensions/plugins/sonarqube-community-branch-plugin-1.8.1.jar
+/data/sonarqube_logs/*
