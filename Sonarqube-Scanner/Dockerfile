@@ -1,0 +1,3 @@
+ARG CONTAINER_VERSION=${CONTAINER_VERSION}
+FROM sonarsource/sonar-scanner-cli:${CONTAINER_VERSION}
+CMD ["sh"]
