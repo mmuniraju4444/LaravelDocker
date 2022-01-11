@@ -1,6 +1,0 @@
-# Ignore everything in this directory
-*
-plugins/*
-# Except this file
-!.gitignore
-!plugins/sonarqube-community-branch-plugin-1.8.1.jar
