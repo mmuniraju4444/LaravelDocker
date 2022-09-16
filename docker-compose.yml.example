@@ -334,3 +334,22 @@ services:
       - "${HOST6}:${HOST_IP}"
       - "${HOST7}:${HOST_IP}"
       - "${HOST8}:${HOST_IP}"
+
+#NGINXPROXYMANAGER
+  nginx-proxy-manager:
+    hostname: NginxProxyManager
+    build:
+      context: ./NginxProxyManager
+      dockerfile: Dockerfile
+      args:
+        - CONTAINER_VERSION=${NGINXPROXYMANAGER_VER}
+    ports:
+      - 81:81
+      - 80:80
+      - 443:443
+    volumes:
+      - ./NginxProxyManager/config:/config
+      - ./NginxProxyManager/letsencrypt:/etc/letsencrypt
+      - ./Source:/var/www/html
+    env_file:
+      - ./NginxProxyManager/.env
