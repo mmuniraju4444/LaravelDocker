@@ -317,6 +317,7 @@ services:
         - CONTAINER_VERSION=${NEXTCLOUD_VER}
     volumes:
       - ./Source/nextcloud:/var/www/html
+    hostname: cloud.mmtech.dev
     ports:
       - 8005:80
     env_file:
@@ -353,3 +354,16 @@ services:
       - ./Source:/var/www/html
     env_file:
       - ./NginxProxyManager/.env
+
+#HEIMDALL
+  heimdall:
+    hostname: heimdall
+    build:
+      context: ./Heimdall
+      dockerfile: Dockerfile
+      args:
+        - CONTAINER_VERSION=${HEIMDALL_VER}
+    volumes:
+      - ./Heimdall/config:/config
+    env_file:
+      - ./Heimdall/.env
