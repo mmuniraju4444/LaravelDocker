@@ -367,3 +367,22 @@ services:
       - ./Heimdall/config:/config
     env_file:
       - ./Heimdall/.env
+
+# FAIL2BAN
+  fail2ban:
+    network_mode: "host"
+    build:
+      context: ./Fail2Ban
+      dockerfile: Dockerfile
+      args:
+        - CONTAINER_VERSION=${FAIL2BAN_VER}
+    volumes:
+      - nginx_log:/var/log:ro
+      - ./Fail2Ban/data:/data
+    privileged: true
+    cap_add:
+      - NET_ADMIN
+      - NET_RAW
+    env_file:
+      - ./Fail2Ban/.env
+    restart: always
