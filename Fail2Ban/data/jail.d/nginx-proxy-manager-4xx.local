@@ -17,11 +17,12 @@ bantime.multipliers = 1 5 30 60 300 720 1440 2880
 # logs are comming from reverse proxy "nginx proxy manager"
 enabled = true
 ignoreip = 127.0.0.1/8
+port = http,https
 chain = DOCKER-USER
 logpath = /var/log/proxy-host-*_access.log
           /var/log/fallback_access.log
 action = action-4xx-browsing
-filter = filter-4xx-browsing
+filter = nginx-proxy-manager-filter-4xx-browsing
 maxretry = 5
 bantime  = 600
 findtime = 60
