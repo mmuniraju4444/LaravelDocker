@@ -46,7 +46,7 @@ RUN mkdir -p /usr/src/php/ext/imagick; \
 RUN apk del --no-cache freetype-dev libpng-dev && \
 rm -rf /tmp/pear
 
-COPY --from=composer:2.0.8 /usr/bin/composer /usr/bin/composer
+COPY --from=composer:2.2.21 /usr/bin/composer /usr/bin/composer
 
 RUN addgroup -g 1001 -S appuser && \
     adduser -u 1001 -S appuser -G appuser
