@@ -386,3 +386,35 @@ services:
     env_file:
       - ./Fail2Ban/.env
     restart: always
+
+#GRAFANA
+  grafana:
+    hostname: grafana
+    build:
+      context: ./Grafana
+      dockerfile: Dockerfile
+      args:
+        - CONTAINER_VERSION=${GRAFANA_VER}
+    ports:
+      - 3001:3000
+    volumes:
+      - ./Grafana/data:/var/lib/grafana
+    env_file:
+      - ./Grafana/.env
+    depends_on:
+      - influxdb
+
+#INFLUXDB
+  influxdb:
+    hostname: influxdb
+    build:
+      context: ./InfluxDB
+      dockerfile: Dockerfile
+      args:
+        - CONTAINER_VERSION=${INFLUXDB_VER}
+    ports:
+      - 8086:8086
+    volumes:
+      - ./InfluxDB/data:/var/lib/influxdb2
+    env_file:
+      - ./InfluxDB/.env

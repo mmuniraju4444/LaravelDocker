@@ -61,4 +61,10 @@ COPY supervisord.conf /etc/supervisord.conf
 
 WORKDIR /etc/supervisor/config
 
-ENTRYPOINT ["/usr/bin/supervisord", "-n", "-c",  "/etc/supervisord.conf"]
+#Metric
+COPY --from=telegraf:1.24.4-alpine /usr/bin/telegraf /usr/bin/telegraf
+COPY telegraf.conf /etc/telegraf/telegraf.conf
+COPY docker-php-entrypoint.sh /usr/local/bin/docker-php-entrypoint.sh
+RUN chmod +x /usr/local/bin/docker-php-entrypoint.sh
+
+ENTRYPOINT ["/usr/local/bin/docker-php-entrypoint.sh"]

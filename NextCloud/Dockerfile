@@ -1,3 +1,8 @@
 ARG CONTAINER_VERSION=${CONTAINER_VERSION}
 FROM nextcloud:${CONTAINER_VERSION}-apache
 RUN chown -R www-data:root /var/www;
+
+#Metrics
+COPY ./telegraf.conf /etc/telegraf/telegraf.conf
+COPY --from=telegraf:1.24.4 /usr/bin/telegraf /usr/bin/telegraf
+RUN sed -i '/bin\/sh/a if [ $(pidof telegraf | wc -w) -eq 0 ]; then (nohup telegraf --quiet &) fi' /entrypoint.sh
