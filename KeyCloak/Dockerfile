@@ -1,0 +1,3 @@
+ARG CONTAINER_VERSION=${CONTAINER_VERSION}
+FROM quay.io/keycloak/keycloak:${CONTAINER_VERSION}
+CMD ["start-dev"]
