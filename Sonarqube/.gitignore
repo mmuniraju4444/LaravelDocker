@@ -1,5 +1,9 @@
 /.env
 /data/sonarqube_extensions/*
-!/data/sonarqube_extensions/plugins
-/data/sonarqube_extensions/plugins/*
-!/data/sonarqube_extensions/plugins/sonarqube-community-branch-plugin-1.8.1.jar
+!/data/sonarqube_extensions/.gitkeep
+/data/sonarqube_conf/*
+!/data/sonarqube_conf/.gitkeep
+/data/sonarqube_data/*
+!/data/sonarqube_data/.gitkeep
+/data/sonarqube_logs/*
+!/data/sonarqube_logs/.gitkeep
