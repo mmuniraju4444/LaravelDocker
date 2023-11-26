@@ -49,6 +49,8 @@ rm -rf /tmp/pear
 COPY conf/php.ini /usr/local/etc/php/
 
 #Metric
-COPY --from=telegraf:1.24.4-alpine /usr/bin/telegraf /usr/bin/telegraf
-COPY telegraf.conf /etc/telegraf/telegraf.conf
-RUN sed -i '/bin\/sh/a if [ $(pidof telegraf | wc -w) -eq 0 ]; then (nohup telegraf &) fi'  /usr/local/bin/docker-php-entrypoint
+#COPY conf/www.conf /usr/local/etc/php-fpm.d/
+#COPY conf/www.conf.default /usr/local/etc/php-fpm.d/
+#COPY --from=telegraf:1.26.2-alpine /usr/bin/telegraf /usr/bin/telegraf
+#COPY telegraf.conf /etc/telegraf/telegraf.conf
+#RUN sed -i '/bin\/sh/a if [ $(pidof telegraf | wc -w) -eq 0 ]; then (nohup telegraf &) fi'  /usr/local/bin/docker-php-entrypoint
