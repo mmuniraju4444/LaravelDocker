@@ -4,7 +4,7 @@ version: '3.3'
 ############################# VOLUMES #######################
 #############################################################
 volumes:
-# MARIADB
+# DATABASE
   mariadb-master:
     driver: ${VOLUME_DRIVER}
   mariadb-slave:
@@ -13,6 +13,8 @@ volumes:
     driver: ${VOLUME_DRIVER}
   mysql-slave:
     driver: ${VOLUME_DRIVER}
+  postgresql-master:
+     driver: ${VOLUME_DRIVER}
 # REDIS
   redis:
     driver: ${VOLUME_DRIVER}
@@ -352,6 +354,7 @@ services:
       - ./NginxProxyManager/config:/config
       - ./NginxProxyManager/letsencrypt:/etc/letsencrypt
       - ./Source:/var/www/html
+      - nginx_log:/data/logs
     env_file:
       - ./NginxProxyManager/.env
 
@@ -418,3 +421,142 @@ services:
       - ./InfluxDB/data:/var/lib/influxdb2
     env_file:
       - ./InfluxDB/.env
+
+ # FAIL2BAN
+  fail2ban:
+    hostname: fail2ban
+    network_mode: "host"
+    build:
+      context: ./Fail2Ban
+      dockerfile: Dockerfile
+      args:
+        - CONTAINER_VERSION=${FAIL2BAN_VER}
+    volumes:
+      - nginx_log:/var/log:ro
+      - ./Fail2Ban/data:/data
+    privileged: true
+    cap_add:
+      - NET_ADMIN
+      - NET_RAW
+    env_file:
+      - ./Fail2Ban/.env
+    restart: always
+
+  # NodeJs
+  utilities:
+    hostname: utilities
+    build:
+      context: ./NodeJs
+      dockerfile: Dockerfile
+      args:
+        - CONTAINER_VERSION=${NODEJS_VER}
+    working_dir: /var/www/html/utilities-frontend
+    command: "npm run-script build"
+    volumes:
+      - ./Source:/var/www/html
+    env_file:
+      - ./NodeJs/.env
+
+  # NodeJs
+  mrs:
+    hostname: mrs
+    build:
+      context: ./NodeJs
+      dockerfile: Dockerfile
+      args:
+        - CONTAINER_VERSION=${NODEJS_VER}
+    working_dir: /var/www/html/mrs-frontend
+    command: "npm run-script build"
+    volumes:
+      - ./Source:/var/www/html
+    env_file:
+      - ./NodeJs/.env
+
+  # NodeJs
+  dms:
+    hostname: dms
+    build:
+      context: ./NodeJs
+      dockerfile: Dockerfile
+      args:
+        - CONTAINER_VERSION=${NODEJS_VER}
+    working_dir: /var/www/html/dms-frontend
+    command: "npm run-script build"
+    volumes:
+      - ./Source:/var/www/html
+    env_file:
+      - ./NodeJs/.env
+
+  # NodeJs
+  tenant:
+    hostname: tenant
+    build:
+      context: ./NodeJs
+      dockerfile: Dockerfile
+      args:
+        - CONTAINER_VERSION=${NODEJS_VER}
+    working_dir: /var/www/html/tenant-frontend
+    command: "npm run-script build"
+    volumes:
+      - ./Source:/var/www/html
+    env_file:
+      - ./NodeJs/.env
+
+  # NodeJs
+  mmtinyurl:
+    hostname: mmtinyurl
+    build:
+      context: ./NodeJs
+      dockerfile: Dockerfile
+      args:
+        - CONTAINER_VERSION=${NODEJS_VER}
+    working_dir: /var/www/html/tinyurl-frontend
+    command: "npm run-script build"
+    volumes:
+      - ./Source:/var/www/html
+    env_file:
+      - ./NodeJs/.env
+
+# SONARQUBE
+  sonarqube:
+    build:
+      context: ./Sonarqube
+      dockerfile: Dockerfile
+      args:
+        - CONTAINER_VERSION=${SONARQUBE_COMMUNITY_VER}
+    container_name: sonarqube
+    #ports:
+    #  - 9000:9000
+    volumes:
+      - ./Sonarqube/data/sonarqube_conf:/opt/sonarqube/conf
+      - ./Sonarqube/data/sonarqube_data:/opt/sonarqube/data
+      - ./Sonarqube/data/sonarqube_extensions:/opt/sonarqube/extensions
+      - ./Sonarqube/data/sonarqube_logs:/opt/sonarqube/logs
+    env_file:
+      - ./Sonarqube/.env
+
+  # POSTGRESQL
+  postgresql-master:
+    hostname: postgresql-master
+    build:
+      context: ./Postgres
+      dockerfile: Dockerfile
+      args:
+        - CONTAINER_VERSION=${POSTGRESQL_VER}
+    env_file:
+      - ./Postgres/.env
+    volumes:
+      - postgresql-master:/var/lib/postgresql/data
+
+  jenkins:
+    build:
+      context: ./Jenkins
+      dockerfile: Dockerfile
+      args:
+        - CONTAINER_VERSION=${JENKINS_VER}
+    # ports:
+    #   - "3306:3306"
+    volumes:
+      - ./Source/ssh:/var/lib/jenkins/.ssh
+    env_file:
+      - ./Jenkins/.env
