@@ -21,6 +21,9 @@ volumes:
 # WORKSPACE
   composer:
     driver: ${VOLUME_DRIVER}
+# JENKINS
+  jenkins-data:
+    driver: ${VOLUME_DRIVER}
 #ELASTICSEARCH
   elasticsearch:
     driver: ${VOLUME_DRIVER}
@@ -558,5 +561,6 @@ services:
     #   - "3306:3306"
     volumes:
       - ./Source/ssh:/var/lib/jenkins/.ssh
+      - jenkins-data:/var/jenkins_home
     env_file:
       - ./Jenkins/.env
