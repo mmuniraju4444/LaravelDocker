@@ -418,3 +418,13 @@ services:
       - ./InfluxDB/data:/var/lib/influxdb2
     env_file:
       - ./InfluxDB/.env
+
+#UPTIME-KUMA
+  uptime-kuma:
+    build:
+      context: ./UptimeKuma
+      dockerfile: Dockerfile
+      args:
+        - CONTAINER_VERSION=${UPTIME_KUMA_VER}
+    env_file:
+      - ./UptimeKuma/.env
