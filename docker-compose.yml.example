@@ -574,3 +574,55 @@ services:
         - CONTAINER_VERSION=${UPTIME_KUMA_VER}
     env_file:
       - ./UptimeKuma/.env
+
+#TIANJI
+  tianji:
+    build:
+      context: ./Tianji
+      dockerfile: Dockerfile
+      args:
+        - CONTAINER_VERSION=${TIANJI_VER}
+    env_file:
+      - ./Tianji/.env
+#    ports:
+#      - "12345:12345"
+    depends_on:
+      - postgresql-master
+
+# AUTHENTIK-SERVER
+  authentik-server:
+    build:
+      context: ./Authentik
+      dockerfile: Dockerfile
+      args:
+        - CONTAINER_VERSION=${AUTHENTIK_VER}
+    restart: unless-stopped
+    command: server
+#    volumes:
+#      - ./Authentik/data/media:/media
+#      - ./Authentik/data/custom-templates:/templates
+    env_file:
+      - ./Authentik/.env
+    depends_on:
+      - postgresql-master
+      - authentik-worker
+      - redis
+
+# AUTHENTIK-SERVER
+  authentik-worker:
+    build:
+      context: ./Authentik
+      dockerfile: Dockerfile
+      args:
+        - CONTAINER_VERSION=${AUTHENTIK_VER}
+    restart: unless-stopped
+    command: worker
+#    user: root
+#    volumes:
+#      - /var/run/docker.sock:/var/run/docker.sock
+#      - ./Authentik/data/media:/media
+#      - ./Authentik/data/certs:/certs
+#      - ./Authentik/data/custom-templates:/templates
+    env_file:
+      - ./Authentik/.env
+
