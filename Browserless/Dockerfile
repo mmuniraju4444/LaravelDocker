@@ -1,5 +1,5 @@
 ARG CONTAINER_VERSION=${CONTAINER_VERSION}
-FROM browserless/chrome:${CONTAINER_VERSION}
+FROM ghcr.io/browserless/chromium:${CONTAINER_VERSION}
 
 #Metric
 #COPY --from=telegraf:1.26.2-alpine /usr/bin/telegraf /usr/bin/telegraf
