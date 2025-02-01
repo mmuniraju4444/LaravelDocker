@@ -562,7 +562,7 @@ services:
     # ports:
     #   - "3306:3306"
     volumes:
-      - ./Source/ssh:/var/lib/jenkins/.ssh
+      -  /home/ubuntu/.ssh:/var/lib/jenkins/.ssh:ro
       - jenkins-data:/var/jenkins_home
     env_file:
       - ./Jenkins/.env
@@ -627,4 +627,30 @@ services:
 #      - ./Authentik/data/custom-templates:/templates
     env_file:
       - ./Authentik/.env
+
+  # OLLAMA
+  ollama:
+    build:
+      context: ./Ollama
+      dockerfile: Dockerfile
+      args:
+        - CONTAINER_VERSION=${OLLAMA_VER}
+    volumes:
+      - ./Ollama/data:/root/.ollama
+    env_file:
+      - ./Ollama/.env
+
+  # OpenWebUI
+  open-web-ui:
+    build:
+      context: ./OpenWebUI
+      dockerfile: Dockerfile
+      args:
+        - CONTAINER_VERSION=${OPEN_WEB_UI_VER}
+    ports:
+      - "3306:8080"
+    volumes:
+      - ./OpenWebUI/data:/app/backend/data
+    env_file:
+      - ./OpenWebUI/.env
 
