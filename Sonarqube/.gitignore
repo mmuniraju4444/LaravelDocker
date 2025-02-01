@@ -7,8 +7,6 @@
 !/data/sonarqube_data/.gitkeep
 /data/sonarqube_logs/*
 !/data/sonarqube_logs/.gitkeep
-!/data/sonarqube_extensions/plugins/*
- Authelia/
-        Strapi/
-        Tolgee/
-        test/
+!/data/sonarqube_extensions/plugins/sonarqube-community-branch-plugin-1.23.0.jar
+!/data/sonarqube_extensions/plugins/.gitkeep
+!/data/sonarqube_extensions/plugins/
