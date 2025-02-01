@@ -8,3 +8,7 @@
 /data/sonarqube_logs/*
 !/data/sonarqube_logs/.gitkeep
 !/data/sonarqube_extensions/plugins/*
+ Authelia/
+        Strapi/
+        Tolgee/
+        test/
