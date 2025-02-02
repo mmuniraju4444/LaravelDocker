@@ -2,5 +2,11 @@
 /config/*
 !/config/data/.gitkeep
 !/config/data/
+/config/data/*
 !/config/letsencrypt/.gitkeep
 !/config/letsencrypt
+/config/letsencrypt/*
+        Authelia/
+        Strapi/
+        Tolgee/
+        test/
