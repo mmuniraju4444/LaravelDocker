@@ -1,4 +1,6 @@
 /.env
 /config/*
 !/config/data/.gitkeep
+!/config/data/
 !/config/letsencrypt/.gitkeep
+!/config/letsencrypt
